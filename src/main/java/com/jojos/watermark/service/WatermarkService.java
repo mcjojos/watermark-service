@@ -47,6 +47,11 @@ public class WatermarkService {
         return ticket;
     }
 
+    /**
+     * Retrieves the watermark for a particular ticket id
+     * @param ticket the id for which a particular watermark is produced
+     * @return the watermark or null if it hasn't been created one (yet)
+     */
     public Watermark getWatermarkForTicket(Integer ticket) {
         return store.getWatermarkForTicket(ticket);
     }
