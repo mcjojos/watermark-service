@@ -40,7 +40,9 @@ the documents it can handle. Each and every document is treated the same no matt
 sent multiple times, i.e. it will be saved as a different entry in memory and will be assigned a different ticket.
 An enhancement can be made on that matter in the sense that the same ticket can be returned for documents 
 that have already been received for watermark processing. The later one is simulated by introducing an intentional duration 
-of delay between 1-10 seconds.
+of delay between 1-10 seconds. 
+
+The ticket id is implemented as a simple atomic integer starting from 1 which increments on every watermark request.
 
 The logs are produced under the LOGS/ folder in the location you run the application
 and written to a file with pattern WATERMARK_{yyyy-MM-dd}.log

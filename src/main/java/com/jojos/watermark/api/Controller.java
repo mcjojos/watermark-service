@@ -62,7 +62,7 @@ public class Controller {
      * @param documentView a view of the document which is mapped to a book or a journal
      * @return the ticket number for which we associate this book for later watermark retrieval
      */
-    @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public int createWatermarkForDocument(@RequestBody DocumentView documentView) {
         Document document = documentView.toDocument();
         log.info("Create a new watermark via post for document with title {}", document.getTitle());
@@ -94,7 +94,7 @@ public class Controller {
         return watermarkService.createWatermarkFor(document);
     }
 
-    @GetMapping("/get")
+    @GetMapping(value = "/get", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Watermark getWatermarkForTicket(@RequestParam String ticket) {
         log.info("Retrieving watermark for ticket {}", ticket);
         return watermarkService.getWatermarkForTicket(Integer.valueOf(ticket));
