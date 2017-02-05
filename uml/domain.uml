@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.jojos.watermark.domain</OriginalElement>
+  <nodes>
+    <node x="-111.0" y="235.0">com.jojos.watermark.domain.Author</node>
+    <node x="420.0" y="241.0">com.jojos.watermark.domain.Topic</node>
+    <node x="254.0" y="31.0">com.jojos.watermark.domain.Book</node>
+    <node x="121.0" y="232.0">com.jojos.watermark.domain.Watermark</node>
+    <node x="129.0" y="-51.0">com.jojos.watermark.domain.Document</node>
+    <node x="-97.0" y="50.0">com.jojos.watermark.domain.Journal</node>
+    <node x="184.0" y="432.0">com.jojos.watermark.domain.Content</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.jojos.watermark.domain.Journal" target="com.jojos.watermark.domain.Document">
+      <point x="0.0" y="-52.0" />
+      <point x="84.0" y="57.0" />
+      <point x="156.5" y="57.0" />
+      <point x="-26.5" y="16.0" />
+    </edge>
+    <edge source="com.jojos.watermark.domain.Book" target="com.jojos.watermark.domain.Document">
+      <point x="0.0" y="-64.0" />
+      <point x="282.0" y="57.0" />
+      <point x="209.5" y="57.0" />
+      <point x="26.5" y="16.0" />
+    </edge>
+    <edge source="com.jojos.watermark.domain.Watermark" target="com.jojos.watermark.domain.Topic">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="com.jojos.watermark.domain.Book" target="com.jojos.watermark.domain.Watermark">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="com.jojos.watermark.domain.Watermark" target="com.jojos.watermark.domain.Content">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="com.jojos.watermark.domain.Journal" target="com.jojos.watermark.domain.Watermark">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="com.jojos.watermark.domain.Journal" target="com.jojos.watermark.domain.Author">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="com.jojos.watermark.domain.Watermark" target="com.jojos.watermark.domain.Author">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="com.jojos.watermark.domain.Book" target="com.jojos.watermark.domain.Topic">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="com.jojos.watermark.domain.Book" target="com.jojos.watermark.domain.Author">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="307.0" y="284.5" />
+  <SelectedNodes>
+    <node>com.jojos.watermark.domain.Content</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

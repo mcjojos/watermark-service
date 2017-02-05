@@ -1,0 +1,26 @@
+Request to watermark a book via POST
+curl -H "Content-Type:application/json" -X POST http://localhost:8080/watermark/create -d "{ \"title\" : \"A Brief History of Time\", \"author\" : {\"firstName\" : \"Stephen\", \"lastName\" : \"Hawking\"}, \"topic\" : \"Science\" }"
+
+
+
+Request to watermark a journal via GET
+curl -i -G  http://localhost:8080/watermark/create\?title\=Progress\%20in\%20Earth\%20and\%20Planetary\%20Science\&authorFirstName\=Akio\&authorLastName\=Suzuki
+
+
+Request to get the watermark bound to a given ticket id
+curl -i -G  http://localhost:8080/watermark/get\?ticket\=1
+
+
+
+@GET transaction/$transaction_id
+curl http://localhost:8089/transactionservice/transaction/1
+
+@GET types/$type
+curl http://localhost:8089/transactionservice/types/cars
+
+@GET sum/$transaction_id
+curl http://localhost:8089/transactionservice/sum/10
+
+
+
+
