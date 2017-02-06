@@ -40,11 +40,11 @@ public class WatermarkStore {
      * @return the ticket id associated with the passed document
      */
     public Integer storeDocumentAndCreateTicket(Document document) {
-        ticketIds.incrementAndGet();
-        ticketsToDocuments.putIfAbsent(ticketIds.get(), document);
+        int ticket = ticketIds.incrementAndGet();
+        ticketsToDocuments.putIfAbsent(ticket, document);
 
-        log.info("Creating ticket {} for document {}.", ticketIds.get(), document);
-        return ticketIds.get();
+        log.info("Creating ticket {} for document {}.", ticket, document);
+        return ticket;
     }
 
     /**
@@ -75,23 +75,20 @@ public class WatermarkStore {
     }
 
     private boolean isWatermarkCreatedForTicket(Integer ticket) {
-        if (ticketsToDocuments.get(ticket) != null && ticketsToDocuments.get(ticket).getWatermark().isPresent()) {
-            return true;
-        }
-        return false;
+        return ticketsToDocuments.get(ticket) != null && ticketsToDocuments.get(ticket).getWatermark().isPresent();
     }
-    
+
     private boolean validate(Document previousDocument, Document document) {
         if (previousDocument == null) {
-            log.warn("Attempting to store the ticket associated with a non-existing document");
+            log.warn("ThreadId {} -- Attempting to store the ticket associated with a non-existing document", Thread.currentThread().getId());
             return false;
         }
         if (previousDocument.getWatermark().isPresent()) {
-            log.warn("Attempting to store the ticket associated with a document that's previously already watermarked");
+            log.warn("ThreadId {} -- Attempting to store the ticket associated with a document that's previously already watermarked {}", Thread.currentThread().getId(), document.getTitle());
             return false;
         }
         if (!document.getWatermark().isPresent()) {
-            log.warn("Attempting to store the ticket associated with a document not watermarked");
+            log.warn("ThreadId {} -- Attempting to store a non watermarked document", Thread.currentThread().getId());
             return false;
         }
         return true;

@@ -33,8 +33,12 @@ public class Controller {
 
     private static final Logger log = LoggerFactory.getLogger(Controller.class);
 
+    private final WatermarkService watermarkService;
+
     @Autowired
-    private WatermarkService watermarkService;
+    public Controller(WatermarkService watermarkService) {
+        this.watermarkService = watermarkService;
+    }
 
     /**
      * This method can accept currently two types of documents depending on the json body of the request: books and journals
@@ -49,7 +53,7 @@ public class Controller {
      *      "topic" : "Business"
      * }
      *
-     * The equivalent for the journal type is identical with the exception that we ommit the topic
+     * The equivalent for the journal type is identical with the exception that we omit the topic
      * {
      *      "title" : "title1",
      *      "author" : {

@@ -1,6 +1,5 @@
 package com.jojos.watermark.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.Objects;

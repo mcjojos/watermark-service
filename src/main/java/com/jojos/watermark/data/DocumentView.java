@@ -17,10 +17,6 @@ public class DocumentView {
 
     private final Document document;
 
-    public DocumentView(String title, Author author) {
-        document = new Journal(title, author);
-    }
-
     @JsonCreator
     public DocumentView(@JsonProperty("title") String title,
             @JsonProperty("author") Author author,

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * The service responsible to create watermarks and associate particular ticket ids
@@ -27,8 +26,12 @@ public class WatermarkService {
 
     private static final Logger log = LoggerFactory.getLogger(WatermarkService.class);
 
+    private WatermarkStore store;
+
     @Autowired
-    private final WatermarkStore store = new WatermarkStore();
+    public WatermarkService(WatermarkStore store) {
+        this.store = store;
+    }
 
     /**
      * Create a watermark for a document. Since this is an asynchronous operation the ticket associated to the document is returned
@@ -60,27 +63,31 @@ public class WatermarkService {
     /**
      * Adds a watermark to the specific document in an asynchronous manner
      *
-     * @param ticket the ticket id associated to an existin document
+     * @param ticket the ticket id associated to an existing document
      * @param document the document we need to add the watermark to
      */
     private void addWatermark(Integer ticket, Document document) {
         ExecutorService executorService = Executors.newFixedThreadPool(5);
         executorService.execute(() -> {
+            long startTime = System.currentTimeMillis();
             long threadId = Thread.currentThread().getId();
+            // TODO make the following code configurable through some application properties
             // simulate the job to last from 1 to 10 seconds
-            int durationInSeconds = ThreadLocalRandom.current().nextInt(1, 11);
-            try {
-                log.info("ThreadId {} -- start watermarking document {}", threadId, document);
-                Thread.sleep(durationInSeconds * 1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            int durationInSeconds = ThreadLocalRandom.current().nextInt(1, 11);
+//            try {
+//                log.info("ThreadId {} -- start watermarking document {}", threadId, document);
+//                Thread.sleep(durationInSeconds * 1000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
             Watermark watermark = Watermark.createFor(document);
             Document watermarkedDoc = document.withWatermark(watermark);
             if (!store.storeDocumentForTicket(ticket, watermarkedDoc)) {
-                log.error("ThreadId {} -- An error occured while storing the watermarked document {}", threadId, document);
+                log.error("ThreadId {} -- An error occurred while storing the watermarked document {}", threadId, document);
             } else {
-                log.info("ThreadId {} -- Took {} seconds to watermark {}", threadId, durationInSeconds, document);
+                long endTime = System.currentTimeMillis();
+                long seconds = (endTime - startTime) / 1000;
+                log.info("ThreadId {} -- Took {} seconds to watermark {}", threadId, seconds, document);
             }
 
         });

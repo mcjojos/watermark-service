@@ -4,8 +4,7 @@ Book publications include topics in business, science and media. Journals
 don’t include any specific topics. A document (books, journals) has a title, author and a watermark
 property. An empty watermark property indicates that the document has not been watermarked yet.  
 
-The watermark service is asynchronous. This is simulated by making the process of watermarking on purpose last longer that it should
-by forking and then sleeping for a random period between 1 and 10 seconds. For a given content document the service is
+The watermark service is asynchronous. For a given content document the service is
 returning a ticket, which can be used to poll the status of processing. If the watermarking is finished the
 document can be retrieved with the ticket. The watermark of a book or a journal is identified by
 setting the watermark property of the object. For a book the watermark includes the properties
@@ -27,7 +26,7 @@ mvn clean package
 
 and run the JAR by typing
 
-java -jar target/watermark-service-1.0-SNAPSHOT.jar 
+java -jar target/watermark-service-1.0-SNAPSHOT.jar
 
 If you are experiencing problems starting the embedded tomcat instance at the default port 8080 you might want to try and change the port by issuing
 java -jar target/watermark-service-1.0-SNAPSHOT.jar --server.port=8181
@@ -39,8 +38,7 @@ Each document is saved in memory but not persisted. The implementation makes no 
 the documents it can handle. Each and every document is treated the same no matter if the same document is 
 sent multiple times, i.e. it will be saved as a different entry in memory and will be assigned a different ticket.
 An enhancement can be made on that matter in the sense that the same ticket can be returned for documents 
-that have already been received for watermark processing. The later one is simulated by introducing an intentional duration 
-of delay between 1-10 seconds. 
+that have already been received for watermark processing.
 
 The ticket id is implemented as a simple atomic integer starting from 1 which increments on every watermark request.
 
@@ -56,7 +54,7 @@ for some or any of the exceptions thrown by the controller.
   1. You can post a specific document (book or journal) for which a watermark is needed. If the json contains the topic element the json object
   of the request is mapped to a book otherwise it is mapped to a journal.
   
-  curl -i "Accept: application/json" -H "Content-Type: application/json" -X POST http://localhost:8080/watermark/create -d "{ \"title\" : \"A Brief History of Time\", \"author\" : {\"firstName\" : \"Stephen\", \"lastName\" : \"Hawking\"}, \"topic\" : \"Science\" }"
+  curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X POST http://localhost:8080/watermark/create -d "{ \"title\" : \"A Brief History of Time\", \"author\" : {\"firstName\" : \"Stephen\", \"lastName\" : \"Hawking\"}, \"topic\" : \"Science\" }"
 
   2. An equivalent GET operation is defined which has effectively the same impact.
   Send a document for watermarking and return a ticket which can be used by a consecutive 
