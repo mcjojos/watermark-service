@@ -19,8 +19,8 @@ public class DocumentView {
 
     @JsonCreator
     public DocumentView(@JsonProperty("title") String title,
-            @JsonProperty("author") Author author,
-            @JsonProperty("topic") Topic topic) {
+                        @JsonProperty("author") Author author,
+                        @JsonProperty("topic") Topic topic) {
         if (topic == null) {
             document = new Journal(title, author);
         } else {

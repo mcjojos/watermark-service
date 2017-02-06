@@ -84,9 +84,9 @@ public class Controller {
      */
     @GetMapping("/create")
     public int createWatermarkFor(@RequestParam String title,
-            @RequestParam String authorFirstName,
-            @RequestParam String authorLastName,
-            @RequestParam(required = false) Topic topic) {
+                                  @RequestParam String authorFirstName,
+                                  @RequestParam String authorLastName,
+                                  @RequestParam(required = false) Topic topic) {
         log.info("Create a new watermark for {}", title);
         Document document;
         Author author = new Author(authorFirstName, authorLastName);

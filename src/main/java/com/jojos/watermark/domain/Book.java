@@ -20,8 +20,8 @@ public class Book implements Document {
 
     @JsonCreator
     public Book(@JsonProperty("title") String title,
-            @JsonProperty("author") Author author,
-            @JsonProperty("topic") Topic topic) {
+                @JsonProperty("author") Author author,
+                @JsonProperty("topic") Topic topic) {
         this.title = title;
         this.author = author;
         this.topic = topic;
