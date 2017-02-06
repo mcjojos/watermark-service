@@ -63,11 +63,10 @@ public class ControllerTest {
     @Test
     public void test1_PostCreateWatermarkForBook() throws Exception {
         Document book = new Book("Dummy Book", new Author("Dick", "Whittington"), Topic.Business);
-        MvcResult result = mockMvc.perform(
-                post("/watermark/create").
-                                                 contentType(MediaType.APPLICATION_JSON_UTF8).
-                                                 content(convertObjectToJsonBytes(book))).
-                                          andExpect(status().isOk()).andReturn();
+        MvcResult result = mockMvc.perform(post("/watermark/create").
+                contentType(MediaType.APPLICATION_JSON_UTF8).
+                content(convertObjectToJsonBytes(book))).
+                andExpect(status().isOk()).andReturn();
         String content = result.getResponse().getContentAsString();
         assertCorrectTicketReturned(content);
     }
@@ -75,11 +74,10 @@ public class ControllerTest {
     @Test
     public void test2_PostCreateWatermarkForJournal() throws Exception {
         Document document = new Journal("Magnetospheric Multiscale", new Author("Roy", "Torbert"));
-        MvcResult result = mockMvc.perform(
-                post("/watermark/create").
-                                                 contentType(MediaType.APPLICATION_JSON_UTF8).
-                                                 content(convertObjectToJsonBytes(document))).
-                                          andExpect(status().isOk()).andReturn();
+        MvcResult result = mockMvc.perform(post("/watermark/create").
+                contentType(MediaType.APPLICATION_JSON_UTF8).
+                content(convertObjectToJsonBytes(document))).
+                andExpect(status().isOk()).andReturn();
         String content = result.getResponse().getContentAsString();
         assertCorrectTicketReturned(content);
     }
@@ -98,83 +96,73 @@ public class ControllerTest {
 
     @Test
     public void test5_GetCreateWatermarkForJournal() throws Exception {
-        MvcResult result = mockMvc.perform(
-                get("/watermark/create").
-                                                param("title", "Digital Media").
-                                                param("authorFirstName", "Elias").
-                                                param("authorLastName", "Rimon")).
-                                          andExpect(status().isOk()).andReturn();
+        MvcResult result = mockMvc.perform(get("/watermark/create").
+                param("title", "Digital Media").
+                param("authorFirstName", "Elias").
+                param("authorLastName", "Rimon")).
+                andExpect(status().isOk()).andReturn();
         String content = result.getResponse().getContentAsString();
         assertCorrectTicketReturned(content);
     }
 
     @Test
     public void test6_GetCreateWatermarkForBook() throws Exception {
-        MvcResult result = mockMvc.perform(
-                get("/watermark/create").
-                                                param("title", "Earth").
-                                                param("authorFirstName", "Sougamoto").
-                                                param("authorLastName", "Soi").param("topic", Topic.Science.name())).
-
-                                          andExpect(status().isOk()).andReturn();
+        MvcResult result = mockMvc.perform(get("/watermark/create").
+                param("title", "Earth").
+                param("authorFirstName", "Sougamoto").
+                param("authorLastName", "Soi").param("topic", Topic.Science.name())).
+                andExpect(status().isOk()).andReturn();
         String content = result.getResponse().getContentAsString();
         assertCorrectTicketReturned(content);
     }
 
     @Test
     public void test7_GetCreateWatermarkForBookWrongTopic() throws Exception {
-        mockMvc.perform(
-                get("/watermark/create").
-                                                param("title", "Earth").
-                                                param("authorFirstName", "Oti").
-                                                param("authorLastName", "Katsei").param("topic", "whatever")).
-                       andExpect(status().isBadRequest());
+        mockMvc.perform(get("/watermark/create").
+                param("title", "Earth").
+                param("authorFirstName", "Oti").
+                param("authorLastName", "Katsei").param("topic", "whatever")).
+                andExpect(status().isBadRequest());
     }
 
     @Test
     public void test8_GetWaterMarkForTicketNoParams() throws Exception {
-        mockMvc.perform(
-                get("/watermark/get")).
-                       andExpect(status().isBadRequest());
-
+        mockMvc.perform(get("/watermark/get")).
+                andExpect(status().isBadRequest());
     }
 
     @Test
     public void test9_GetWaterMarkForTicketsConcurrent() throws Exception {
-//        assureArtificialDelayPassed();
-        mockMvc.perform(
-                get("/watermark/get").param("ticket", "1")).
-                       andExpect(status().isOk()).
-                       andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8)).
-                       andExpect(jsonPath("$.content").value(Content.Book.name())).
-                       andExpect(jsonPath("$.title").value("Dummy Book")).
-                       andExpect(jsonPath("$.author").value("Dick Whittington")).
-                       andExpect(jsonPath("$.topic").value(Topic.Business.name()));
+        //        assureArtificialDelayPassed();
+        mockMvc.perform(get("/watermark/get").param("ticket", "1")).
+                andExpect(status().isOk()).
+                andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8)).
+                andExpect(jsonPath("$.content").value(Content.Book.name())).
+                andExpect(jsonPath("$.title").value("Dummy Book")).
+                andExpect(jsonPath("$.author").value("Dick Whittington")).
+                andExpect(jsonPath("$.topic").value(Topic.Business.name()));
 
-        mockMvc.perform(
-                get("/watermark/get").param("ticket", "2")).
-                       andExpect(status().isOk()).
-                        andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8)).
-                        andExpect(jsonPath("$.content").value(Content.Journal.name())).
-                        andExpect(jsonPath("$.title").value("Magnetospheric Multiscale")).
-                        andExpect(jsonPath("$.author").value("Roy Torbert"));
+        mockMvc.perform(get("/watermark/get").param("ticket", "2")).
+                andExpect(status().isOk()).
+                andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8)).
+                andExpect(jsonPath("$.content").value(Content.Journal.name())).
+                andExpect(jsonPath("$.title").value("Magnetospheric Multiscale")).
+                andExpect(jsonPath("$.author").value("Roy Torbert"));
 
-        mockMvc.perform(
-                get("/watermark/get").param("ticket", "3")).
-                       andExpect(status().isOk()).
-                        andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8)).
-                        andExpect(jsonPath("$.content").value(Content.Journal.name())).
-                        andExpect(jsonPath("$.title").value("Digital Media")).
-                        andExpect(jsonPath("$.author").value("Elias Rimon"));
+        mockMvc.perform(get("/watermark/get").param("ticket", "3")).
+                andExpect(status().isOk()).
+                andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8)).
+                andExpect(jsonPath("$.content").value(Content.Journal.name())).
+                andExpect(jsonPath("$.title").value("Digital Media")).
+                andExpect(jsonPath("$.author").value("Elias Rimon"));
 
-        mockMvc.perform(
-                get("/watermark/get").param("ticket", "4")).
-                       andExpect(status().isOk()).
-                       andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8)).
-                       andExpect(jsonPath("$.content").value(Content.Book.name())).
-                       andExpect(jsonPath("$.title").value("Earth")).
-                       andExpect(jsonPath("$.author").value("Sougamoto Soi")).
-                       andExpect(jsonPath("$.topic").value(Topic.Science.name()));
+        mockMvc.perform(get("/watermark/get").param("ticket", "4")).
+                andExpect(status().isOk()).
+                andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8)).
+                andExpect(jsonPath("$.content").value(Content.Book.name())).
+                andExpect(jsonPath("$.title").value("Earth")).
+                andExpect(jsonPath("$.author").value("Sougamoto Soi")).
+                andExpect(jsonPath("$.topic").value(Topic.Science.name()));
 
         // concurrency test - perform all 5000 requests at the same time. they are all waiting a single {@link CountDownLatch} to perform the request
         ExecutorService executorService = Executors.newFixedThreadPool(5);
@@ -182,22 +170,22 @@ public class ControllerTest {
 
         int runStart = 5;
         IntStream.range(runStart, concurrentRuns).forEachOrdered(run ->
-            executorService.submit(() -> {
-                try {
-                    latch.await(10, TimeUnit.SECONDS);
-                    MvcResult result = mockMvc.perform(
-                            get("/watermark/create").
-                                                            param("title", "Earth" + run).
-                                                            param("authorFirstName", "Sougamoto").
-                                                            param("authorLastName", "Soi")).
-                                                      andExpect(status().isOk()).andReturn();
-                    String content = result.getResponse().getContentAsString();
-                    assertCorrectTicketReturned(content);
+                executorService.submit(() -> {
+                    try {
+                        latch.await(10, TimeUnit.SECONDS);
+                        MvcResult result = mockMvc.perform(
+                                get("/watermark/create").
+                                        param("title", "Earth" + run).
+                                        param("authorFirstName", "Sougamoto").
+                                        param("authorLastName", "Soi")).
+                                andExpect(status().isOk()).andReturn();
+                        String content = result.getResponse().getContentAsString();
+                        assertCorrectTicketReturned(content);
 
-                } catch (Exception e) {
-                    Assert.fail("Concurrency test execution interrupted. Exiting.");
-                }
-            }));
+                    } catch (Exception e) {
+                        Assert.fail("Concurrency test execution interrupted. Exiting.");
+                    }
+                }));
         executorService.shutdown();
         latch.countDown();
 
@@ -232,9 +220,9 @@ public class ControllerTest {
         // if the response is not empty continue normally
         MvcResult result = resultAction.andExpect(status().isOk()).
                 andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8)).
-                                               andExpect(jsonPath("$.content").value(Content.Journal.name())).
-                                               andExpect(jsonPath("$.author").value("Sougamoto Soi")).
-                                               andReturn();
+                andExpect(jsonPath("$.content").value(Content.Journal.name())).
+                andExpect(jsonPath("$.author").value("Sougamoto Soi")).
+                andReturn();
         String body = result.getResponse().getContentAsString();
         // this is ugly I know but it's the only way I came up with in order to parse the data of the body. The actual content looks like this:
         // {"content":"Journal","title":"Earth6","author":"Sougamoto Soi"}

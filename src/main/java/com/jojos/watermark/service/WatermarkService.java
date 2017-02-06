@@ -71,15 +71,6 @@ public class WatermarkService {
         executorService.execute(() -> {
             long startTime = System.currentTimeMillis();
             long threadId = Thread.currentThread().getId();
-            // TODO make the following code configurable through some application properties
-            // simulate the job to last from 1 to 10 seconds
-//            int durationInSeconds = ThreadLocalRandom.current().nextInt(1, 11);
-//            try {
-//                log.info("ThreadId {} -- start watermarking document {}", threadId, document);
-//                Thread.sleep(durationInSeconds * 1000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
             Watermark watermark = Watermark.createFor(document);
             Document watermarkedDoc = document.withWatermark(watermark);
             if (!store.storeDocumentForTicket(ticket, watermarkedDoc)) {
